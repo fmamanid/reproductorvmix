@@ -40,6 +40,9 @@ def cargar_datos(una_lista):
     txt_hora_inicio = rotulo_empieza.get()
     #messagebox.showinfo("Actulaizar hora",f"la hora se actualizara a: {txt_hora_inicio}")
 
+    #formato_mihora = datetime.strptime(txt_hora_inicio,"%d/%m/%Y %H:%M:%S")
+    #txt_hora_inicio = datetime.now()
+
     formato_mihora = datetime.strptime(txt_hora_inicio,"%d/%m/%Y %H:%M:%S")
 
     tiempo_inicio_lista = formato_mihora # datetime.now()
@@ -115,7 +118,17 @@ def Reproducir():
     ultimo_registro = len(mi_lista.get_children())
     nro_reg = 0
 
+
+    #  limpiar la lista
+    Limpiar()
+
+    actualizar_hora_inicio()
+    # cargar con la fecha actual
+    cargar_datos(miLista)
+    print(miLista)
+
     mi_lista.after(300, actualiza_rotulos_mi_lista)
+
 
     tarea_bucle_principal = mi_lista.after(300, bucle_principal)
 
@@ -226,15 +239,23 @@ def actualiza_fecha_fin():
 
 
 def actualizar_hora_inicio():
-    txt_hora_inicio = rotulo_empieza.get()
-    messagebox.showinfo("Actulaizar hora",f"la hora se actualizara a: {txt_hora_inicio}")
 
-    formato_mihora = datetime.strptime(txt_hora_inicio,"%d/%m/%Y %H:%M:%S")
+    #fecha_hora.set(time.strftime("%d/%m/%Y %H:%M:%S"))
 
-    if datetime.now() >  formato_mihora:
-        print("No se puede por que la hora configurad es menor a la fecha actrual")
-    else:
-        print(formato_mihora)
+    tiempo_adicional = timedelta(seconds=3)
+    tiempo_inicio_video =  datetime.now() + tiempo_adicional
+    fecha_hora.set(tiempo_inicio_video.strftime("%d/%m/%Y %H:%M:%S"))
+
+
+    # txt_hora_inicio = rotulo_empieza.get()
+    # messagebox.showinfo("Actulaizar hora",f"la hora se actualizara a: {txt_hora_inicio}")
+
+    # formato_mihora = datetime.strptime(txt_hora_inicio,"%d/%m/%Y %H:%M:%S")
+
+    # if datetime.now() >  formato_mihora:
+    #     print("No se puede por que la hora configurad es menor a la fecha actrual")
+    # else:
+    #     print(formato_mihora)
 
 
 
@@ -243,7 +264,7 @@ def actualizar_hora_inicio():
 
 ventana = tk.Tk()
 ventana.title("Automatizacion Vmix")
-ventana.geometry("1000x600")
+ventana.geometry("1050x600")
 #ventana.minsize(width=600, height=600)
 ventana.resizable(0,0)
 
@@ -300,10 +321,10 @@ mi_lista = ttk.Treeview(frameLista,
                             columns=('col1','col2','col3','col4'),
                             height=22)
 mi_lista.column('#0',width=350)
-mi_lista.column('col1',width=50)
+mi_lista.column('col1',width=115)
 mi_lista.column('col2',width=50)
 mi_lista.column('col3',width=50)
-mi_lista.column('col4',width=150)
+mi_lista.column('col4',width=120)
 
 mi_lista.heading('#0',text='Titulo')
 mi_lista.heading('col1',text='Inicio')
@@ -359,16 +380,16 @@ btn_stop = tk.Button(frame_botones,text='Detener',
 btn_stop.grid(row=0, column=3,padx=5,pady=5)
 
 
-btn_back = tk.Button(frame_botones,text='Atras', 
+btn_back = tk.Button(frame_botones,text='Bucle', 
                     width=10,height=5,
                     state="disabled")
 btn_back.grid(row=0, column=4,padx=5,pady=5)
 
 
-btn_next = tk.Button(frame_botones,text='Adelante', 
-                    width=10,height=5,
-                    state="disabled")
-btn_next.grid(row=0, column=5,padx=5,pady=5)
+# btn_next = tk.Button(frame_botones,text='Adelante', 
+#                     width=10,height=5,
+#                     state="disabled")
+# btn_next.grid(row=0, column=5,padx=5,pady=5)
 
 
 btn_exit = tk.Button(frame_botones,text='Salir', 
@@ -392,7 +413,7 @@ frame_fecha_hora = tk.Frame(frame_derecha)
 cuadro_fecha_hora = tk.LabelFrame(frame_derecha,
                                    #bg="green",
                                    width=350, height=300,
-                                   text="Configuracion del tiempo",
+                                   text="Programar",
                                    font="Arial 10 underline"
                                    )
 hora = tk.StringVar()
@@ -472,7 +493,7 @@ btn_enviar_a_vmix = tk.Button(frame_opciones_vmix,
 btn_enviar_a_vmix.grid(row=0, column=0, padx=2,pady=2)
 
 btn_borrar_lista_vmix = tk.Button(frame_opciones_vmix,
-                              text="Borrar",
+                              text="Cancelar",
                               width=15
                               )
 btn_borrar_lista_vmix.grid(row=0, column=1, padx=2,pady=2)

@@ -76,7 +76,7 @@ class AppReproduccionVmix ():
         miLogo = classLogoVmix.AppLogoVmix(variables.direccionLogo)
         if opcion == 1:
             videoOutVmix.cargarVideo()
-            time.sleep(1)
+            #time.sleep(1)
             videoPreviewVmix.cargarVideo()
             time.sleep(1)
             videoOutVmix.reproducirVideo()
